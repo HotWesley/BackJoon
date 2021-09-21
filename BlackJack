@@ -1,0 +1,49 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace beakjoon
+{
+    class MainClass
+    {
+        public static void Main(string[] args)
+        {
+            List<string> inputStringList = Console.ReadLine().Split(' ').ToList();
+
+            int cardCount = Convert.ToInt32(inputStringList[0]);
+            int targetNumber = Convert.ToInt32(inputStringList[1]);
+
+            List<string> cards = Console.ReadLine().Split(' ').ToList();
+
+            int result = GetBlackJackNumber(cardCount, targetNumber, cards);
+
+            Console.Write(result.ToString());
+        }
+
+        static int GetBlackJackNumber(int cardCount, int targetNumber, List<string> cards)
+        {
+            List<Tuple<int, int>> resultTupleList = new List<Tuple<int, int>>();
+
+            for (int i = 0; i < cards.Count - 2; i++)
+            {
+                for (int j = i + 1; j < cards.Count - 1; j++)
+                {
+                    for (int k = j + 1; k < cards.Count; k++)
+                    {
+                        int sum = Int32.Parse(cards[i]) + Int32.Parse(cards[j]) + Int32.Parse(cards[k]);
+
+                        if (targetNumber - sum >= 0) 
+                        {
+                            resultTupleList.Add(new Tuple<int, int>(targetNumber - sum, sum));
+                        }
+                    }
+                }
+            }
+
+            var test = resultTupleList.Min();
+            return test.Item2;
+        }
+    }
+}
